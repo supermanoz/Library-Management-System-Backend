@@ -10,7 +10,6 @@ import javax.annotation.PostConstruct;
 
 @SpringBootApplication
 public class SpringbootLmsApplication {
-	//test comment
 	@Autowired
 	MemberRepository memberRepository;
 	public static void main(String[] args) {
