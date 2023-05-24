@@ -10,9 +10,6 @@ import com.manoj.springboot.exception.DoesNotExistException;
 import com.manoj.springboot.repository.MemberRepository;
 import com.manoj.springboot.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,7 +39,6 @@ public class MemberServiceImpl implements MemberService {
         return members;
     }
 
-    @Cacheable(value="member",key="#id")
     @Override
     public MemberResponseDto getMember(int id,String language){
         if(!memberRepository.existsById(id)){
@@ -53,7 +49,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    @CachePut(value="member",key="#memberRequestDto.memberId")
     public MemberResponseDto addMember(MemberRequestDto memberRequestDto){
         if(memberRequestDto.getMemberId()!=0){ //i.e. updation!
 //            Member member=new Member(memberDto.getMemberId(),memberDto.getName(),memberDto.getGender(),memberDto.getAddress(),memberDto.getEmail(),memberDto.getDob(),memberDto.getPhone(),memberDto.getRole());
@@ -87,7 +82,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    @CacheEvict(value="member",key="#memberId")
     public boolean deleteMember(int memberId){
         if(!memberRepository.existsById(memberId)){
             throw new DoesNotExistException("The member does not exist!");
@@ -97,7 +91,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    @CacheEvict(value="member",key="#memberId")
     public MemberResponseDto uploadImage(MultipartFile file,Integer memberId) throws IOException {
 //        // ### Using BLOB Concept ###
 //        if(!memberRepository.existsById(memberId)){
