@@ -5,6 +5,7 @@ import com.manoj.springboot.configuration.MyResourceBundleMessageSource;
 import com.manoj.springboot.exception.DoesNotExistException;
 import com.manoj.springboot.dto.BookDto;
 import com.manoj.springboot.response.MyResponse;
+import com.manoj.springboot.service.ExcelExportService;
 import com.manoj.springboot.serviceImpl.BookServiceImpl;
 import com.manoj.springboot.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,12 @@ import java.util.Locale;
 public class BookController {
     @Autowired
     private Message message;
-
     @Autowired
     private MyResourceBundleMessageSource messageSource;
     @Autowired
     private BookServiceImpl bookService;
+    @Autowired
+    private ExcelExportService excelExportService;
 
     @GetMapping("/fetchAll")
     public ResponseEntity<?> getBooks(@RequestHeader("Accept-Language") String language) {
@@ -80,6 +82,8 @@ public class BookController {
 
     @GetMapping("/exportExcel")
     public void exportExcel(HttpServletResponse response) throws IOException {
-        //todo
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition","attachment;filename=book.xls");
+        excelExportService.exportExcel(response);
     }
 }
