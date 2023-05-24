@@ -42,7 +42,6 @@ public class MemberServiceImpl implements MemberService {
         return members;
     }
 
-    @Cacheable(value="member",key="#id")
     @Override
     public MemberResponseDto getMember(int id,String language){
         if(!memberRepository.existsById(id)){
@@ -53,7 +52,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    @CachePut(value="member",key="#memberRequestDto.memberId")
     public MemberResponseDto addMember(MemberRequestDto memberRequestDto){
         if(memberRequestDto.getMemberId()!=0){ //i.e. updation!
 //            Member member=new Member(memberDto.getMemberId(),memberDto.getName(),memberDto.getGender(),memberDto.getAddress(),memberDto.getEmail(),memberDto.getDob(),memberDto.getPhone(),memberDto.getRole());
@@ -87,7 +85,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    @CacheEvict(value="member",key="#memberId")
     public boolean deleteMember(int memberId){
         if(!memberRepository.existsById(memberId)){
             throw new DoesNotExistException("The member does not exist!");
@@ -97,7 +94,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    @CacheEvict(value="member",key="#memberId")
     public MemberResponseDto uploadImage(MultipartFile file,Integer memberId) throws IOException {
 //        // ### Using BLOB Concept ###
 //        if(!memberRepository.existsById(memberId)){
