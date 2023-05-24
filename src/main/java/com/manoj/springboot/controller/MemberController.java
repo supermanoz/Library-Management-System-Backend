@@ -11,6 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.mail.MessagingException;
 import java.io.IOException;
 
 @RestController
@@ -33,7 +35,7 @@ public class MemberController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> addMember(@RequestBody MemberRequestDto memberRequestDto){
+    public ResponseEntity<?> addMember(@RequestBody MemberRequestDto memberRequestDto) throws MessagingException {
         return new ResponseEntity<>(new MyResponse<>(HttpStatus.OK,memberService.addMember(memberRequestDto)), HttpStatus.OK);
     }
 

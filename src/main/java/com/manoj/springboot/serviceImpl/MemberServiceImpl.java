@@ -1,6 +1,7 @@
 package com.manoj.springboot.serviceImpl;
 
 import com.manoj.springboot.configuration.Message;
+import com.manoj.springboot.dto.MailRequestDto;
 import com.manoj.springboot.dto.MemberRequestDto;
 import com.manoj.springboot.dto.MemberResponseDto;
 import com.manoj.springboot.configuration.MyResourceBundleMessageSource;
@@ -8,6 +9,7 @@ import com.manoj.springboot.model.Member;
 import com.manoj.springboot.enums.RoleEnum;
 import com.manoj.springboot.exception.DoesNotExistException;
 import com.manoj.springboot.repository.MemberRepository;
+import com.manoj.springboot.service.MailService;
 import com.manoj.springboot.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -16,6 +18,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.MessagingException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -32,6 +35,8 @@ public class MemberServiceImpl implements MemberService {
     private MyResourceBundleMessageSource messageSource;
     private final String imageFilepath="F:/Java/Spring-Boot/Spring-LMS/src/main/resources/images/";
 
+    @Autowired
+    private MailService mailService;
 
     @Override
     public List<MemberResponseDto> getAllMembers(){
@@ -54,7 +59,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @CachePut(value="member",key="#memberRequestDto.memberId")
-    public MemberResponseDto addMember(MemberRequestDto memberRequestDto){
+    public MemberResponseDto addMember(MemberRequestDto memberRequestDto) throws MessagingException {
         if(memberRequestDto.getMemberId()!=0){ //i.e. updation!
 //            Member member=new Member(memberDto.getMemberId(),memberDto.getName(),memberDto.getGender(),memberDto.getAddress(),memberDto.getEmail(),memberDto.getDob(),memberDto.getPhone(),memberDto.getRole());
             Member repoMember=memberRepository.findByMemberId(memberRequestDto.getMemberId());
@@ -82,6 +87,24 @@ public class MemberServiceImpl implements MemberService {
                 .role(memberRequestDto.getRole())
                 .password(null)
                 .build();
+
+        // ### Sending a user creation mail ###
+        Map<String,Object> model=new HashMap<>();
+        model.put("userName",memberRequestDto.getName());
+        model.put("role",memberRequestDto.getRole());
+        model.put("message","Your account has been successfully registered!");
+        model.put("date",new Date().toString());
+        String cc[]={"deppofficial00@gmail.com"};
+        String bcc[]={"basnetm02@gmail.com"};
+        MailRequestDto mailRequestDto=MailRequestDto.builder()
+                .to(memberRequestDto.getEmail())
+                .subject("User Registration Successful")
+                .template("mail_user_creation.html")
+                .model(model)
+                .cc(cc)
+                .bcc(bcc)
+                .build();
+        mailService.sendEmail(mailRequestDto);
 
         return memberToMemberResponse(memberRepository.save(member));
     }
