@@ -8,12 +8,15 @@ import com.manoj.springboot.response.MyResponse;
 import com.manoj.springboot.service.ExcelExportService;
 import com.manoj.springboot.serviceImpl.BookServiceImpl;
 import com.manoj.springboot.model.Book;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -31,6 +34,7 @@ public class BookController {
     private ExcelExportService excelExportService;
 
     @GetMapping("/fetchAll")
+    @ApiOperation(value = "Lists all the books",notes="No Notes")
     public ResponseEntity<?> getBooks(@RequestHeader("Accept-Language") String language) {
         List<Book> books=bookService.getBooks();
         if(books==null){
@@ -40,7 +44,8 @@ public class BookController {
     }
 
     @GetMapping("/fetch/{id}")
-    public ResponseEntity<?> getBook(@PathVariable String id,@RequestHeader("Accept-Language") String language){
+    @ApiOperation(value="Fetch 1 book",notes = "Fetch book for given isbn",response = Book.class)
+    public ResponseEntity<?> getBook(@ApiParam(value="provide a book isbn",required = true)@PathVariable String id, @RequestHeader("Accept-Language") String language){
         Book book=bookService.getBook(id);
         if(book!=null)
             return new ResponseEntity<>(new MyResponse<>(HttpStatus.OK,book),HttpStatus.OK);
@@ -49,7 +54,7 @@ public class BookController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> addBook(@RequestBody BookDto bookDto){
+    public ResponseEntity<?> addBook(@Valid @RequestBody BookDto bookDto){
         Book addedBook=bookService.addBook(bookDto);
         return new ResponseEntity<>(new MyResponse<Book>(HttpStatus.OK,addedBook),HttpStatus.OK);
     }

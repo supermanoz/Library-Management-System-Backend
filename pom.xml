@@ -58,6 +58,19 @@
 			<version>4.1.1</version>
 		</dependency>
 
+		<!-- ### springfox swagger for documentation ###-->
+		<!--		<dependency>-->
+		<!--			<groupId>io.springfox</groupId>-->
+		<!--			<artifactId>springfox-swagger-ui</artifactId>-->
+		<!--			<version>3.0.0</version>-->
+		<!--		</dependency>-->
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-boot-starter</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+
 		<!--	### for testing ###	-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

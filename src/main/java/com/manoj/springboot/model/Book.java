@@ -3,6 +3,8 @@ package com.manoj.springboot.model;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
+
+import io.swagger.annotations.ApiModel;
 import lombok.*;
 
 import java.math.BigInteger;
@@ -32,6 +34,8 @@ import java.util.Date;
 //@SqlResultSetMapping(name="Mapping.Book",classes=@ConstructorResult(targetClass = Book.class,columns={
 //        @ColumnResult(name="isbn")
 //}))
+
+@ApiModel(description= "Book Model that stores book details")
 public class Book extends Auditable{
 
     @Id
