@@ -1,6 +1,8 @@
 package com.manoj.springboot.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.manoj.springboot.enums.RoleEnum;
 import lombok.*;
@@ -20,16 +22,18 @@ public class Member{
     @SequenceGenerator(name="member_generator",sequenceName = "member_seq",allocationSize = 1,initialValue = 100)
     private Integer memberId;
     @Column(name="username")
+    @NotBlank
     private String name;
     @Column(columnDefinition = "VARCHAR(1) CHECK (gender IN ('m', 'f'))")
     private Character gender;
     private String address;
     @Column(unique = true,nullable = false)
+    @Email(message ="Invalid Email baby!")
     private String email;
-
+    @Past(message = "Date of birth must be in past!")
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date dob;
-
+    @Size(min=10)
     private String phone;
     @Column(name="issued_date")
     @JsonFormat(pattern="yyyy-MM-dd")
@@ -37,6 +41,7 @@ public class Member{
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "VARCHAR(9) CHECK (role IN ('LIBRARIAN','STUDENT','STAFF'))")
     private RoleEnum role;
+    @Size(min=4)
     private String password;
     private boolean enabled=true;
     @Lob

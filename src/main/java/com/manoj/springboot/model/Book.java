@@ -1,6 +1,8 @@
 package com.manoj.springboot.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.math.BigInteger;
@@ -27,6 +29,9 @@ import java.util.Date;
         @ColumnResult(name="checkout_duration"),
         @ColumnResult(name="publisher_publisher_id")
 }))
+//@SqlResultSetMapping(name="Mapping.Book",classes=@ConstructorResult(targetClass = Book.class,columns={
+//        @ColumnResult(name="isbn")
+//}))
 public class Book extends Auditable{
 
     @Id
@@ -38,6 +43,7 @@ public class Book extends Auditable{
     private String genre;
     private Integer quantity;
     @Column(name="checkout_duration")
+    @Max(21)
     private Integer checkoutDuration;
     @ManyToOne
     private Publisher publisher;
