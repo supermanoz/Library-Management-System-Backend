@@ -13,9 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -37,7 +37,7 @@ public class MemberServiceImpl implements MemberService {
     public List<MemberResponseDto> getAllMembers(){
         List<MemberResponseDto> members=new ArrayList<>();
         memberRepository.findAll().forEach((member)->
-            members.add(memberToMemberResponse(member))
+                members.add(memberToMemberResponse(member))
         );
         return members;
     }
@@ -67,7 +67,7 @@ public class MemberServiceImpl implements MemberService {
                     .gender(memberRequestDto.getGender())
                     .phone(memberRequestDto.getPhone())
                     .role(memberRequestDto.getRole())
-                    .password(null)
+                    .password(BCrypt.hashpw(memberRequestDto.getPassword(),BCrypt.gensalt()))
                     .build();
             return memberToMemberResponse(memberRepository.save(member));
         }
@@ -80,7 +80,7 @@ public class MemberServiceImpl implements MemberService {
                 .gender(memberRequestDto.getGender())
                 .phone(memberRequestDto.getPhone())
                 .role(memberRequestDto.getRole())
-                .password(null)
+                .password(BCrypt.hashpw(memberRequestDto.getPassword(),BCrypt.gensalt()))
                 .build();
 
         return memberToMemberResponse(memberRepository.save(member));
