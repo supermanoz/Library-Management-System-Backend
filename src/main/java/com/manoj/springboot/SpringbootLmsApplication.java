@@ -18,7 +18,7 @@ public class SpringbootLmsApplication {
 	@PostConstruct
 	public void init(){
 		// ### Creation of admin at init ###
-		if(!memberRepository.existsById(100)){
+		if(!memberRepository.existsByEmail("basnetm02@gmail.com")){
 			Member member= Member.builder()
 					.name("Manoj Basnet")
 					.email("basnetm02@gmail.com")

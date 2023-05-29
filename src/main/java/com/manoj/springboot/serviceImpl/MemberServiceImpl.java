@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -40,6 +41,33 @@ public class MemberServiceImpl implements MemberService {
             members.add(memberToMemberResponse(member))
         );
         return members;
+    }
+
+    @Override
+    public List<MemberResponseDto> getMaleMembers() {
+        List<MemberResponseDto> members=new ArrayList<>();
+        memberRepository.findAll().forEach(member -> members.add(memberToMemberResponse(member)));
+        List<MemberResponseDto> maleMembers=members.stream().filter(member->member.getGender().equals('m')).collect(Collectors.toList());
+        return maleMembers;
+    }
+
+    @Override
+    public List<MemberResponseDto> getSortedMembers() {
+        List<MemberResponseDto> members=new ArrayList<>();
+        memberRepository.findAll().forEach(member -> members.add(memberToMemberResponse(member)));
+        List<MemberResponseDto> maleMembers=members.stream().sorted(Comparator.comparing(member->member.getName())).collect(Collectors.toList());
+        return maleMembers;
+    }
+
+    @Override
+    public List<MemberResponseDto> getByRole(RoleEnum role) {
+        List<MemberResponseDto> members=new ArrayList<>();
+        memberRepository.findAll().forEach(member -> members.add(memberToMemberResponse(member)));
+        List<MemberResponseDto> roleMembers=null;
+        if(members.stream().anyMatch(member->member.getRole()==role)){
+            roleMembers=members.stream().filter(member->member.getRole()==role).collect(Collectors.toList());
+        }
+        return roleMembers;
     }
 
     @Override

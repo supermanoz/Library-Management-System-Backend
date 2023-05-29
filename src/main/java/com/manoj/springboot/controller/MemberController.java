@@ -1,6 +1,7 @@
 package com.manoj.springboot.controller;
 
 import com.manoj.springboot.dto.MemberRequestDto;
+import com.manoj.springboot.enums.RoleEnum;
 import com.manoj.springboot.response.MyResponse;
 import com.manoj.springboot.serviceImpl.MemberServiceImpl;
 import org.slf4j.Logger;
@@ -30,6 +31,21 @@ public class MemberController {
     @GetMapping("/fetch/{id}")
     public ResponseEntity getMembers(@PathVariable int id,@RequestHeader("Accept-Language") String language){
         return ResponseEntity.ok().body(new MyResponse<>(memberService.getMember(id,language)));
+    }
+
+    @GetMapping("/fetchMales")
+    public ResponseEntity getMaleMembers(){
+        return ResponseEntity.ok().body(new MyResponse<>(memberService.getMaleMembers()));
+    }
+
+    @GetMapping("/fetchSorted")
+    public ResponseEntity getSortedMembers(){
+        return ResponseEntity.ok().body(new MyResponse<>(memberService.getSortedMembers()));
+    }
+
+    @GetMapping("/fetchByRole/{role}")
+    public ResponseEntity getByRole(@PathVariable RoleEnum role){
+        return ResponseEntity.ok().body(new MyResponse<>(memberService.getByRole(role)));
     }
 
     @PostMapping("/save")
