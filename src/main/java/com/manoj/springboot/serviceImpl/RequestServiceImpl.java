@@ -8,6 +8,7 @@ import com.manoj.springboot.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,6 +22,8 @@ public class RequestServiceImpl implements RequestService {
     }
 
     public List<Request> fetchAll(){
-        return requestRepository.findAll();
+        List<Request> requests=new ArrayList<>();
+        requestRepository.findAll().forEach(requests::add);
+        return requests;
     }
 }

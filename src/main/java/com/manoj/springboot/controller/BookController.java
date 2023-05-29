@@ -5,15 +5,17 @@ import com.manoj.springboot.configuration.MyResourceBundleMessageSource;
 import com.manoj.springboot.exception.DoesNotExistException;
 import com.manoj.springboot.dto.BookDto;
 import com.manoj.springboot.response.MyResponse;
-import com.manoj.springboot.service.ExcelExportService;
+import com.manoj.springboot.service.ExcelService;
 import com.manoj.springboot.serviceImpl.BookServiceImpl;
 import com.manoj.springboot.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -28,7 +30,7 @@ public class BookController {
     @Autowired
     private BookServiceImpl bookService;
     @Autowired
-    private ExcelExportService excelExportService;
+    private ExcelService excelService;
 
     @GetMapping("/fetchAll")
     public ResponseEntity<?> getBooks(@RequestHeader("Accept-Language") String language) {
@@ -81,9 +83,18 @@ public class BookController {
     }
 
     @GetMapping("/exportExcel")
-    public void exportExcel(HttpServletResponse response) throws IOException {
-        response.setContentType("application/octet-stream");
-        response.setHeader("Content-Disposition","attachment;filename=book.xls");
-        excelExportService.exportExcel(response);
+    public ResponseEntity<?> exportExcel(@RequestParam("fileName") String excelName) throws IOException {
+//        response.setContentType("application/octet-stream");
+//        response.setHeader("Content-Disposition","attachment;filename=book.xls");
+//        excelService.exportExcel(response);
+        excelService.exportExcel(Book.class,excelName);
+        return ResponseEntity.ok().body("Excel file exported as file name: "+excelName);
+    }
+
+    @GetMapping("/importExcel")
+    public ResponseEntity<?> importExcel(@RequestParam("file")MultipartFile file) throws IOException {
+//        File file=new File(file);
+        excelService.importExcel(Book.class,file);
+        return ResponseEntity.ok().body("Done baby boo!");
     }
 }

@@ -6,4 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 public interface PublisherRepository extends CrudRepository<Publisher,Long> {
     public Publisher findByPublisherId(long id);
     public boolean existsByName(String name);
+    public Publisher findByName(String name);
 }
