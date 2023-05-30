@@ -26,8 +26,14 @@ public class MyControllerAdvice {
     public ResponseEntity<?> alreadyExistsExceptionHandler(AlreadyExistsException alreadyExistsException){
         return new ResponseEntity<String>(alreadyExistsException.getErrorMessage(),alreadyExistsException.getErrorCode());
     }
+
     @ExceptionHandler(NotAuthenticatedException.class)
     public ResponseEntity<?> notAuthenticatedExceptionHandler(NotAuthenticatedException notAuthenticatedException){
-        return new ResponseEntity<>(notAuthenticatedException.getErrorMessage(),HttpStatus.valueOf(notAuthenticatedException.getErrorCode()));
+        return new ResponseEntity<>(notAuthenticatedException.getErrorMessage(),notAuthenticatedException.getErrorCode());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> defaultExceptionHandler(Exception exception){
+        return new ResponseEntity<>(exception.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

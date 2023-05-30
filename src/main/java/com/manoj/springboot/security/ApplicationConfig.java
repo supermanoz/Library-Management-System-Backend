@@ -39,7 +39,7 @@ public class ApplicationConfig {
 //    }
 
     @Autowired
-    MyUserDetailsService myUserDetailsService;
+    private MyUserDetailsService myUserDetailsService;
 
     @Bean
     public AuthenticationProvider authenticationProvider(){

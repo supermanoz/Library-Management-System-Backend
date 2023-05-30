@@ -22,7 +22,7 @@ public class MyUserDetails implements UserDetails {
 
 
     public MyUserDetails(Member user){
-        System.out.println(user.getName());
+        System.out.println("Loaded details from db to UserDetails for "+user.getName());
         this.username=user.getEmail();
         this.password= user.getPassword();
         this.enabled=user.isEnabled();
