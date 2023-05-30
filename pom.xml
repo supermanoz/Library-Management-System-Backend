@@ -44,6 +44,18 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- ### flyway ### -->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
+
+		<!-- ### flyway for mysql ### -->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-mysql</artifactId>
+		</dependency>
+
 		<!--	### for testing ###	-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

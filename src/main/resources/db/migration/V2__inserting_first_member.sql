@@ -1,0 +1,1 @@
+INSERT INTO `member` VALUES (101,'Kalopul,Kathmandu',NULL,'basnetm02@gmail.com',_binary '','m',NULL,NULL,NULL,'Manoj Basnet','$2a$10$vzwNStH5t0bdKISNvDxxvepMQ9KokRbedC13h6EP2p7IQuVil4Kh.','9843242332','LIBRARIAN');
