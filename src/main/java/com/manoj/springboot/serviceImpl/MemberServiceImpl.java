@@ -9,6 +9,8 @@ import com.manoj.springboot.enums.RoleEnum;
 import com.manoj.springboot.exception.DoesNotExistException;
 import com.manoj.springboot.repository.MemberRepository;
 import com.manoj.springboot.service.MemberService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
@@ -28,7 +30,7 @@ public class MemberServiceImpl implements MemberService {
     @Autowired
     private MyResourceBundleMessageSource messageSource;
     private final String imageFilepath="F:/Java/Spring-Boot/Spring-LMS/src/main/resources/images/";
-
+    Logger logger= LoggerFactory.getLogger(MemberServiceImpl.class);
 
     @Override
     public List<MemberResponseDto> getAllMembers(){
@@ -44,7 +46,7 @@ public class MemberServiceImpl implements MemberService {
         if(!memberRepository.existsById(id)){
             throw new DoesNotExistException(messageSource.messageSource().getMessage("doesNotExist",null,new Locale(language)));
         }
-        System.out.println("Redis Cache Miss! Sad!");
+        logger.trace("Redis Cache Miss! Sad!");
         return memberToMemberResponse(memberRepository.findByMemberId(id));
     }
 

@@ -20,13 +20,11 @@ public class AlreadyExistsException extends RuntimeException{
     private String errorMessage;
     private HttpStatus errorCode;
     public AlreadyExistsException(String errorMessage){
-        System.out.println(message+" "+errorMessage);
         this.errorMessage=errorMessage;
         this.errorCode=HttpStatus.BAD_REQUEST;
     }
 
     public AlreadyExistsException(){
-        System.out.println(message+" "+errorMessage);
         this.errorCode=HttpStatus.BAD_REQUEST;
     }
 }

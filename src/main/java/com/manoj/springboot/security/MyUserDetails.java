@@ -1,6 +1,8 @@
 package com.manoj.springboot.security;
 
 import com.manoj.springboot.model.Member;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,6 +17,7 @@ public class MyUserDetails implements UserDetails {
 
 
 
+    Logger logger= LoggerFactory.getLogger(UserDetails.class);
     private String username;
     private String password;
     private Boolean enabled;
@@ -22,7 +25,7 @@ public class MyUserDetails implements UserDetails {
 
 
     public MyUserDetails(Member user){
-        System.out.println("Loaded details from db to UserDetails for "+user.getName());
+        logger.trace("Loaded details from db to UserDetails for "+user.getName());
         this.username=user.getEmail();
         this.password= user.getPassword();
         this.enabled=user.isEnabled();

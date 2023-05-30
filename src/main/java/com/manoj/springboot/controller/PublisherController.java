@@ -4,6 +4,8 @@ import com.manoj.springboot.exception.DoesNotExistException;
 import com.manoj.springboot.model.Publisher;
 import com.manoj.springboot.response.MyResponse;
 import com.manoj.springboot.serviceImpl.PublisherServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import java.util.List;
 @RequestMapping("/publishers")
 public class PublisherController {
 
+    Logger logger= LoggerFactory.getLogger(PublisherController.class);
     @Autowired
     private PublisherServiceImpl publisherService;
     @GetMapping("/fetchAll")
@@ -38,7 +41,7 @@ public class PublisherController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deletePublishers(@PathVariable long id){
-        System.out.println("This is publisher id baby "+id);
+        logger.trace("This is publisher id baby "+id);
         if(!publisherService.deletePublisher(id)){
             throw new DoesNotExistException("The publisher by this id doesn't exist!");
         }
