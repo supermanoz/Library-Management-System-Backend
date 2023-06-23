@@ -44,6 +44,12 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- ### OAuth2 ### -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-client</artifactId>
+		</dependency>
+
 		<!--	### for testing ###	-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
